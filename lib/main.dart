@@ -27,6 +27,10 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.red,
+          disabledColor: Colors.redAccent,
+        ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
             elevation: 4,
             backgroundColor: Colors.red,

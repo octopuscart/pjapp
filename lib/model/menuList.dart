@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 Map mainMenuConfiguration(int index) {
   Map menuList = {
     3: {
@@ -306,7 +308,7 @@ Map mainMenuConfiguration(int index) {
     },
     4: {
       "type": "formAction",
-      "title": "Youg Partners Registration",
+      "title": "Young Partners Registration",
       "apilink": "insertDataApi/youngPartners",
       "formData": [
         {
@@ -498,4 +500,34 @@ Map mainMenuConfiguration(int index) {
     return menuData;
   }
   return {};
+}
+
+List socialListConfig() {
+  return [
+    {
+      "title": "Facebook",
+      "icon": FontAwesomeIcons.facebook,
+      "link": "https://www.facebook.com/PJStephenPaul/"
+    },
+    {
+      "title": "Youtube",
+      "icon": FontAwesomeIcons.youtube,
+      "link": "https://www.youtube.com/PJStephenPaul/"
+    },
+    {
+      "title": "Instagram",
+      "icon": FontAwesomeIcons.instagram,
+      "link": "https://www.instagram.com/pjstephenpaul/"
+    },
+    {
+      "title": "Twitter/X",
+      "icon": FontAwesomeIcons.twitter,
+      "link": "https://twitter.com/PJSPaul_LCRC"
+    },
+    {
+      "title": "Website",
+      "icon": FontAwesomeIcons.internetExplorer,
+      "link": "https://www.pjspaul.org/"
+    },
+  ];
 }

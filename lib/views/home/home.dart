@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pj_paul_ministries/model/menuList.dart';
 import 'home_menu.dart';
 import '../screens/form.dart';
+import 'package:pj_paul_ministries/model/apiController.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    List socialList = socialListConfig();
     return Scaffold(
       drawer: HomeDrwer().build(context),
       appBar: AppBar(
@@ -126,6 +128,18 @@ class _HomePageState extends State<HomePage> {
               height: 400,
               child: HomeMenu(),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(socialList.length, (index) {
+                Map socialObj = socialList[index];
+                return IconButton(
+                    onPressed: () {
+                      ApiController apiobj = ApiController();
+                      apiobj.launchUrlExternal(socialObj["link"]);
+                    },
+                    icon: Icon(socialObj["icon"]));
+              }),
+            )
           ],
         ),
       ),

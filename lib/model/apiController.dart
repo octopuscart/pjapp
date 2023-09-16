@@ -107,10 +107,10 @@ class ApiController {
           "errorMessage": "Failed to submit data",
           "errorData": response.body
         };
-        throw Exception('Failed to post data ${response.body}');
+        // throw Exception('Failed to post data ${response.body}');
       }
       return (responseData);
-    } on Exception catch (e) {
+    } catch (e) {
       HTTPCallResponse responseData =
           HTTPCallResponse(status: 404, response: {});
       responseData.setError = {
@@ -118,7 +118,7 @@ class ApiController {
         "errorMessage": "Failed to connect server",
         "errorData": e
       };
-      print('never reached $e');
+      // print('never reached $e');
       return responseData;
     }
   }
@@ -131,6 +131,13 @@ class ApiController {
       mode: LaunchMode.externalApplication,
     )) {
       throw 'Could not launch $toLaunch';
+    }
+  }
+
+  Future<void> launchUrlExternal(String urllink) async {
+    final Uri _url = Uri.parse(urllink);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
     }
   }
 

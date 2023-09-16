@@ -91,13 +91,22 @@ class _DynamicFieldsState extends State<DynamicFields> {
     ApiController apiobj = ApiController();
     HTTPCallResponse response =
         await apiobj.postCall(jsonData, "/${widget.apilink}");
-    print(response);
+    print("----${response.status}");
 
     switch (response.status) {
       case 500:
         {
           messageDialog(context, response.error!["errorMessage"],
-              'Sumission Failed', false);
+              'Submission Failed', false);
+        }
+        break;
+      case 404:
+        {
+          messageDialog(
+              context,
+              "Unable to connect server, Please check your internet.",
+              'Sumission Failed',
+              false);
         }
         break;
       case 200:
@@ -141,26 +150,42 @@ class _DynamicFieldsState extends State<DynamicFields> {
                     children: <Widget>[
                       Expanded(
                         child: MaterialButton(
-                          color: Theme.of(context).colorScheme.secondary,
-                          child: const Text(
-                            "Submit",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              if (_formKey.currentState != null) {
-                                print(_formKey.currentState!.value);
-                                submitData(_formKey.currentState!.value);
-                              }
-                            }
-                          },
+                          color: Colors.red,
+                          disabledColor: Colors.red.shade100,
+                          child: proceessData
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator()),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text("Submitting..."),
+                                  ],
+                                )
+                              : Text(
+                                  "Submit",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                          onPressed: proceessData
+                              ? null
+                              : () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    if (_formKey.currentState != null) {
+                                      print(_formKey.currentState!.value);
+                                      submitData(_formKey.currentState!.value);
+                                    }
+                                  }
+                                },
                         ),
                       ),
                     ],
                   ),
                   const Divider(height: 40),
-                  Text('Saved value: $savedValue'),
                 ],
               ),
             ),
@@ -172,10 +197,9 @@ class _DynamicFieldsState extends State<DynamicFields> {
 List<FormBuilderFieldOption<String>> convertToFormBuilderFieldOption(
     Map<String, String>? optionsMap) {
   late List<FormBuilderFieldOption<String>> tempOptionsList = [];
-  print(optionsMap);
+
   if (optionsMap != null) {
     optionsMap.forEach((key, value) {
-      print(value);
       FormBuilderFieldOption<String> opetionobj = FormBuilderFieldOption(
         value: value,
         child: Text(key),

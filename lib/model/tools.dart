@@ -12,32 +12,30 @@ Map worshipSongs() {
 }
 
 void homeGridAction(int index, BuildContext context) {
-  Map menuList = mainMenuConfiguration(index);
-  if (menuList.containsKey(index)) {
-    Map menuData = menuList[index];
-    if (menuData["type"] == "BottomSeet") {
-      BottomSheetTemplate(
-              context: context,
-              title: menuData["title"],
-              actionList: menuData["menu"],
-              height: menuData["height"])
-          .show();
-    }
-    if (menuData["type"] == "linkAction") {
-      launchUrlExternalCall(menuData["action"]);
-    }
-    if (menuData["type"] == "paramAction") {
-      streamViewCall(
-        context: context,
-        title: menuData["title"],
-        apilink: menuData["apilink"],
-        mappingobject: menuData["mapping"],
-        viewType: menuData["viewType"],
-      );
-    }
-    if (menuData["type"] == "formAction") {
-      formActionCallRequest(context, menuData);
-    }
+  Map menuData = mainMenuConfiguration(index);
+
+  if (menuData["type"] == "BottomSeet") {
+    BottomSheetTemplate(
+            context: context,
+            title: menuData["title"],
+            actionList: menuData["menu"],
+            height: menuData["height"])
+        .show();
+  }
+  if (menuData["type"] == "linkAction") {
+    launchUrlExternalCall(menuData["action"]);
+  }
+  if (menuData["type"] == "paramAction") {
+    streamViewCall(
+      context: context,
+      title: menuData["title"],
+      apilink: menuData["apilink"],
+      mappingobject: menuData["mapping"],
+      viewType: menuData["viewType"],
+    );
+  }
+  if (menuData["type"] == "formAction") {
+    formActionCallRequest(context, menuData);
   }
 }
 
