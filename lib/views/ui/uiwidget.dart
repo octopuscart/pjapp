@@ -388,6 +388,7 @@ GridView triGridViewBuilder(
                     ),
                   );
                   print("audio for connection");
+                  break;
                 case "lyrics":
                   Navigator.push(
                     context,
