@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import './common.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 class AudioPlayerView extends StatefulWidget {
   const AudioPlayerView({
@@ -34,7 +35,7 @@ class AudioPlayerViewState extends State<AudioPlayerView>
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   ApiController apiobj = ApiController();
   bool isLoading = false;
-  bool isCreatingPlaylist = false;
+  bool isCreatingPlaylist = true;
 
   @override
   void initState() {
@@ -52,21 +53,29 @@ class AudioPlayerViewState extends State<AudioPlayerView>
   List songsList = [];
   int songsCounter = 0;
   int totalSongs = 0;
+  static int _nextMediaId = -1;
   setOtherAudioFiles() {
     int i = 0;
 
     songsList.forEach((element) async {
+      int playindex = 0;
+
       AudioSource audioObj = AudioSource.uri(
         Uri.parse(element["song"]),
-        tag: AudioMetadata(
+        tag: MediaItem(
+          id: '${_nextMediaId++}',
           album: widget.title,
           title: element["name"],
-          artwork: element["image"],
+          artUri: Uri.parse(element["image"]),
         ),
       );
+      print(element["song"]);
+      print('${_nextMediaId}');
       await _playlist.add(audioObj);
-      print(i++);
+
+      playindex++;
       setState(() {
+        // _nextMediaId++;
         isCreatingPlaylist = true;
         songsCounter++;
         if (totalSongs == songsCounter) {
@@ -77,6 +86,12 @@ class AudioPlayerViewState extends State<AudioPlayerView>
     setState(() {
       isCreatingPlaylist = false;
     });
+    setPlayList();
+  }
+
+  Future setPlayList() async {
+    _player.setAudioSource(_playlist,
+        preload: kIsWeb || defaultTargetPlatform != TargetPlatform.linux);
   }
 
   Future<List> fetchData() async {
@@ -108,8 +123,8 @@ class AudioPlayerViewState extends State<AudioPlayerView>
     });
     try {
       // Preloading audio is not currently supported on Linux.
-      await _player.setAudioSource(_playlist,
-          preload: kIsWeb || defaultTargetPlatform != TargetPlatform.linux);
+      // await _player.setAudioSource(_playlist,
+      //     preload: kIsWeb || defaultTargetPlatform != TargetPlatform.linux);
       setOtherAudioFiles();
     } catch (e) {
       // Catch load errors: 404, invalid url...
@@ -184,25 +199,26 @@ class AudioPlayerViewState extends State<AudioPlayerView>
                   if (state?.sequence.isEmpty ?? true) {
                     return const SizedBox();
                   }
-                  final metadata = state!.currentSource!.tag as AudioMetadata;
+                  final metadata = state!.currentSource!.tag as MediaItem;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Center(child: Image.network(metadata.artwork)),
+                          child: Center(
+                              child: Image.network(metadata.artUri.toString())),
                         ),
                       ),
-                      Text(metadata.title,
+                      Text(metadata.album!,
                           style: Theme.of(context).textTheme.titleLarge),
-                      Text(metadata.album),
+                      Text(metadata.title),
                     ],
                   );
                 },
               ),
             ),
-            isLoading ? Container() : ControlButtons(_player),
+            ControlButtons(_player),
             StreamBuilder<PositionData>(
               stream: _positionDataStream,
               builder: (context, snapshot) {
@@ -248,9 +264,7 @@ class AudioPlayerViewState extends State<AudioPlayerView>
                 ),
                 Expanded(
                   child: Text(
-                    isCreatingPlaylist
-                        ? "Adding Songs ${songsCounter} of ${totalSongs}"
-                        : "Playlist",
+                    "Playlist",
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
@@ -426,11 +440,13 @@ class ControlButtons extends StatelessWidget {
 }
 
 class AudioMetadata {
+  final String id;
   final String album;
   final String title;
   final String artwork;
 
   AudioMetadata({
+    required this.id,
     required this.album,
     required this.title,
     required this.artwork,
