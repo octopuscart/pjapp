@@ -227,6 +227,7 @@ class NewField extends StatelessWidget {
       case "email":
         return FormBuilderTextField(
           name: 'email',
+          keyboardType: TextInputType.emailAddress,
           decoration:
               inputDecorationCreator(label, "Please entry valid ${label}"),
           validator: FormBuilderValidators.compose([
@@ -255,6 +256,16 @@ class NewField extends StatelessWidget {
           name: name,
           validator: FormBuilderValidators.required(),
           keyboardType: TextInputType.number,
+          decoration:
+              inputDecorationCreator(label, "Please entry valid ${label}"),
+        );
+
+      case "textarea":
+        return FormBuilderTextField(
+          minLines: 3,
+          maxLines: 7,
+          name: name,
+          validator: FormBuilderValidators.required(),
           decoration:
               inputDecorationCreator(label, "Please entry valid ${label}"),
         );

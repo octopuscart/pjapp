@@ -46,6 +46,7 @@ dependencies:
   flutter_form_builder: ^9.1.0
   form_builder_validators: ^9.0.0
   just_audio_background: ^0.0.1-beta.10
+  share_plus: ^7.1.0
 
 dev_dependencies:
   flutter_test:

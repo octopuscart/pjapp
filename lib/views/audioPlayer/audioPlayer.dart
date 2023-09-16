@@ -58,8 +58,6 @@ class AudioPlayerViewState extends State<AudioPlayerView>
     int i = 0;
 
     songsList.forEach((element) async {
-      int playindex = 0;
-
       AudioSource audioObj = AudioSource.uri(
         Uri.parse(element["song"]),
         tag: MediaItem(
@@ -73,7 +71,6 @@ class AudioPlayerViewState extends State<AudioPlayerView>
       print('${_nextMediaId}');
       await _playlist.add(audioObj);
 
-      playindex++;
       setState(() {
         // _nextMediaId++;
         isCreatingPlaylist = true;

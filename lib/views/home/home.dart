@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pj_paul_ministries/model/menuList.dart';
 import 'home_menu.dart';
+import '../screens/form.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -34,6 +37,23 @@ class _HomePageState extends State<HomePage> {
       drawer: HomeDrwer().build(context),
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Map menuDataPray = mainMenuConfiguration(9);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DynamicFields(
+                      title: menuDataPray["title"],
+                      apilink: menuDataPray["apilink"],
+                      formFieldList: menuDataPray["formData"],
+                    ),
+                  ),
+                );
+              },
+              icon: Icon(FontAwesomeIcons.handsPraying))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
