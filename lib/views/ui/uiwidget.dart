@@ -222,6 +222,16 @@ ListView blogViewBuilder(
           });
           mappedObject["tableField"] = tableContentObj;
         }
+        String videoLink = "https://youtu.be/T_G1BE-fD9c";
+        bool hasVideo = false;
+        if (mappingobject.containsKey("has_video")) {
+          hasVideo = mappingobject["has_video"];
+          if (mappedObject["videolink"] != null) {
+            videoLink = mappedObject["videolink"];
+          } else {
+            hasVideo = false;
+          }
+        }
 
         return Card(
           child: Container(
@@ -261,6 +271,34 @@ ListView blogViewBuilder(
                     ],
                   ),
                 ),
+                hasVideo
+                    ? InkWell(
+                        onTap: () => launchUrlExternal(videoLink),
+                        child: Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            Container(
+                              width: 500,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                border: Border(),
+                                image: DecorationImage(
+                                  image: NetworkImage(youtubeImage(videoLink)),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () => launchUrlExternal(videoLink),
+                                icon: Icon(
+                                  Icons.play_circle_fill,
+                                  color: Colors.red,
+                                  size: 50,
+                                )),
+                          ],
+                        ))
+                    : Divider(),
                 Column(
                   children: List.generate(mappedObject["tableField"].length,
                       (tbindex) {

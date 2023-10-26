@@ -14,13 +14,25 @@ class HomeMenu extends StatefulWidget {
 class _HomeMenuState extends State<HomeMenu> {
   @override
   Widget build(BuildContext context) {
+    List menulist = [
+      {"menu": 1, "action": 0},
+      {"menu": 2, "action": 1},
+      {"menu": 3, "action": 2},
+      {"menu": 4, "action": 3},
+      {"menu": 6, "action": 5},
+      // {"menu": 8, "action": 7},
+      {"menu": 5, "action": 4},
+      {"menu": 9, "action": 8}
+    ];
     return Scaffold(
       body: GridView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
+          print(index);
+          Map menuindex = menulist[index];
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: MaterialButton(
@@ -31,7 +43,7 @@ class _HomeMenuState extends State<HomeMenu> {
                 child: ClipRRect(
                   borderRadius: new BorderRadius.circular(30.0),
                   child: Image.asset(
-                    'assets/icons/menu${index + 1}.jpg',
+                    'assets/icons/menu${menuindex['menu']}.jpg',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,11 +52,11 @@ class _HomeMenuState extends State<HomeMenu> {
                 color: Theme.of(context).cardColor,
                 onPressed: () {
                   // onTapped(index, context);
-                  homeGridAction(index, context);
+                  homeGridAction(menuindex['action'], context);
                 }),
           );
         },
-        itemCount: 9,
+        itemCount: menulist.length,
       ),
     );
   }
@@ -82,26 +94,26 @@ class HomeDrwer {
               Navigator.pushNamed(context, 'bible-college');
             },
             leading: Icon(FontAwesomeIcons.bookBible),
-            title: Text('Bible College'),
+            title: Text('Bible College Registration'),
           ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.bookOpenReader),
-            title: Text('Bible Registration'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Map menuDataPray = mainMenuConfiguration(12);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DynamicFields(
-                    title: menuDataPray["title"],
-                    apilink: menuDataPray["apilink"],
-                    formFieldList: menuDataPray["formData"],
-                  ),
-                ),
-              );
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(FontAwesomeIcons.bookOpenReader),
+          //   title: Text('Bible Registration'),
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     Map menuDataPray = mainMenuConfiguration(12);
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => DynamicFields(
+          //           title: menuDataPray["title"],
+          //           apilink: menuDataPray["apilink"],
+          //           formFieldList: menuDataPray["formData"],
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
           ListTile(
             onTap: () {
               Navigator.of(context).pop();
@@ -110,24 +122,24 @@ class HomeDrwer {
             leading: Icon(FontAwesomeIcons.personMilitaryPointing),
             title: Text('Pastors & Leaders'),
           ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.personCircleCheck),
-            title: Text('Pastor Registration'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Map menuDataPray = mainMenuConfiguration(11);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DynamicFields(
-                    title: menuDataPray["title"],
-                    apilink: menuDataPray["apilink"],
-                    formFieldList: menuDataPray["formData"],
-                  ),
-                ),
-              );
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(FontAwesomeIcons.personCircleCheck),
+          //   title: Text('Pastor Registration'),
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     Map menuDataPray = mainMenuConfiguration(11);
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => DynamicFields(
+          //           title: menuDataPray["title"],
+          //           apilink: menuDataPray["apilink"],
+          //           formFieldList: menuDataPray["formData"],
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
           ListTile(
             onTap: () {
               Navigator.of(context).pop();
@@ -159,19 +171,28 @@ class HomeDrwer {
             onTap: () {
               Navigator.of(context).pop();
               Map menuDataReach = mainMenuConfiguration(13);
-              formActionCallRequest(context, menuDataReach);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ReachusPage(
+                    menuData: menuDataReach,
+                  ),
+                ),
+              );
+              // formActionCallRequest(context, menuDataReach);
             },
             title: Text('Reach us'),
           ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.share),
-            onTap: () {
-              Share.share(
-                  "PlayStore: https://play.google.com/store/apps/details?id=dr.legend.pj_paul_ministries&hl=en_US \n AppStore: https://apps.apple.com/us/app/evans-francis/id1492924453?ls=1",
-                  subject: 'Download P.J. Stephen Paul Ministries App');
-            },
-            title: Text('Share'),
-          ),
+          // ListTile(
+          //   leading: Icon(FontAwesomeIcons.share),
+          //   onTap: () {
+          //     Share.share(
+          //         "PlayStore: https://play.google.com/store/apps/details?id=dr.legend.pj_paul_ministries&hl=en_US \n AppStore: https://apps.apple.com/us/app/evans-francis/id1492924453?ls=1",
+          //         subject: 'Download P.J. Stephen Paul Ministries App');
+          //   },
+          //   title: Text('Share'),
+          // ),
           ListTile(
             leading: Icon(FontAwesomeIcons.info),
             onTap: () {
@@ -191,6 +212,93 @@ class HomeDrwer {
             title: Text('Created By'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ReachusPage extends StatefulWidget {
+  const ReachusPage({
+    super.key,
+    required this.menuData,
+  });
+  final Map menuData;
+
+  @override
+  State<ReachusPage> createState() => _ReachusPageState();
+}
+
+class _ReachusPageState extends State<ReachusPage> {
+  int _current = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    List socialList = socialListConfig();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Reach Us"),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "P J Stephen Paul Ministries",
+              style: TextStyle(fontSize: 20),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.map),
+              title: Text(
+                "Plot No.21 , HAS Colony\nBeside State Bank of India\nKharkhana\nSecundrabad 500062",
+              ),
+            ),
+            ListTile(
+                leading: Icon(Icons.phone),
+                title: Text(
+                  "+91-7799902106",
+                )),
+            ListTile(
+                leading: Icon(Icons.email),
+                title: Text(
+                  "pjspaulministry@gmail.com",
+                )),
+            Divider(),
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/map.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      ApiController apiobj = ApiController();
+
+                      apiobj.launchUrlExternal(
+                          "https://maps.app.goo.gl/HU2z4cQycmySDXjD6");
+                    },
+                    child: Text("Get Direction"))
+              ],
+            ),
+            Container(
+              height: 450,
+              child: DynamicFields(
+                title: "",
+                apilink: widget.menuData["apilink"],
+                formFieldList: widget.menuData["formData"],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

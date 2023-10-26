@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             Container(
-              height: 400,
+              height: 800,
               child: HomeMenu(),
             ),
             Row(

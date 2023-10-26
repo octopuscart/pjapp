@@ -128,9 +128,7 @@ class _DynamicFieldsState extends State<DynamicFields> {
   Widget build(BuildContext context) {
     return Scaffold(
         // backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
+        appBar: widget.title != "" ? AppBar(title: Text(widget.title)) : null,
         body: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.all(10),

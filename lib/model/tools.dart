@@ -13,7 +13,7 @@ Map worshipSongs() {
 
 void homeGridAction(int index, BuildContext context) {
   Map menuData = mainMenuConfiguration(index);
-
+  print(menuData);
   if (menuData["type"] == "BottomSeet") {
     BottomSheetTemplate(
             context: context,
