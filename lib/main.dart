@@ -21,17 +21,17 @@ class MyApp extends StatelessWidget {
       title: 'P.J Stephen Paul Ministries',
       theme: ThemeData(
         primaryColor: Colors.red,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           color: Colors.red,
           iconTheme: IconThemeData(
             color: Colors.white,
           ),
         ),
-        buttonTheme: ButtonThemeData(
+        buttonTheme: const ButtonThemeData(
           buttonColor: Colors.red,
           disabledColor: Colors.redAccent,
         ),
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
             elevation: 4,
             backgroundColor: Colors.red,
             foregroundColor: Colors.white),
@@ -40,21 +40,21 @@ class MyApp extends StatelessWidget {
       initialRoute: 'home',
       routes: {
         'aboutus': (context) =>
-            GallaryView(title: 'About Us', apilink: "listApiData/aboutUs"),
+            const GallaryView(title: 'About Us', apilink: "listApiData/aboutUs"),
         'books-literatures': (context) => BooksLiteratures(),
-        'paster-leaders': (context) => GallaryView(
+        'paster-leaders': (context) => const GallaryView(
             title: 'Pastors & Leaders', apilink: "listApiData/pastorsLeaders"),
-        'bible-college': (context) => GallaryView(
+        'bible-college': (context) => const GallaryView(
             title: 'Bible College', apilink: "listApiData/bibleCollege"),
-        'tv-programs': (context) => GallaryView(
+        'tv-programs': (context) => const GallaryView(
             title: 'Tv Programs', apilink: "listApiData/tvPrograms"),
-        'our-charches': (context) => GallaryView(
+        'our-charches': (context) => const GallaryView(
             title: 'Our Churches', apilink: "listApiData/ourChurchese"),
         'donate': (context) =>
-            GallaryView(title: 'Donate', apilink: "listApiData/donateImages"),
-        'charity-images': (context) => GallaryView(
+            const GallaryView(title: 'Donate', apilink: "listApiData/donateImages"),
+        'charity-images': (context) => const GallaryView(
             title: 'Charity Work', apilink: "listApiData/charityImages"),
-        'home': (context) => HomePage(title: 'P.J Stephen Paul Ministries'),
+        'home': (context) => const HomePage(title: 'P.J Stephen Paul Ministries'),
       },
     );
   }
