@@ -120,7 +120,7 @@ class HomeDrwer {
               Navigator.pushNamed(context, 'paster-leaders');
             },
             leading: Icon(FontAwesomeIcons.personMilitaryPointing),
-            title: Text('Pastors & Leaders'),
+            title: Text('Pastors & Leaders Registration '),
           ),
           // ListTile(
           //   leading: Icon(FontAwesomeIcons.personCircleCheck),
@@ -230,7 +230,7 @@ class ReachusPage extends StatefulWidget {
 
 class _ReachusPageState extends State<ReachusPage> {
   int _current = 0;
-
+  ApiController apiobj = ApiController();
   @override
   Widget build(BuildContext context) {
     List socialList = socialListConfig();
@@ -256,14 +256,23 @@ class _ReachusPageState extends State<ReachusPage> {
               ),
             ),
             ListTile(
+                onTap: () => apiobj.launchUrlExternal("tel://+91-7799902106"),
                 leading: Icon(Icons.phone),
                 title: Text(
                   "+91-7799902106",
                 )),
             ListTile(
+                onTap: () => apiobj
+                    .launchUrlExternal("mail://pjspaulministry@gmail.com"),
                 leading: Icon(Icons.email),
                 title: Text(
                   "pjspaulministry@gmail.com",
+                )),
+            ListTile(
+                onTap: () => apiobj.launchUrlExternal("https://pjspaul.org"),
+                leading: Icon(Icons.web),
+                title: Text(
+                  "pjspaul.org",
                 )),
             Divider(),
             Container(
@@ -281,8 +290,6 @@ class _ReachusPageState extends State<ReachusPage> {
               children: [
                 TextButton(
                     onPressed: () {
-                      ApiController apiobj = ApiController();
-
                       apiobj.launchUrlExternal(
                           "https://maps.app.goo.gl/HU2z4cQycmySDXjD6");
                     },
